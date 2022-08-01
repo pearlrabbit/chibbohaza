@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<table>
+<tr>
+<td>글번호</td>
+<td>글제목</td>
+<td>작성자</td>
+<td>조회수</td>
+</tr>
+<tr th:each="p:${postList}">
+<td th:text="${p.postNum}"></td>
+<td><a th:href="@{'/detailPost/'+${p.postNum}}" th:text="${p.postTitle}"></a></td>
+<td th:text="${p.userNick}"></td>
+<td th:text="${p.postHit}"></td>
+</tr>
+</table>
+<a href="/insertPost">글쓰기</a>
+</body>
+</html>

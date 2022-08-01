@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+게시글번호 : <span th:text="${post.postNum}"></span><br>
+게시글제목 : <span th:text="${post.postTitle}"></span><br>
+게시글내용 : <span th:text="${post.postContent}"></span><br>
+게시글작성자 : <span th:text="${user.userNick}"></span><br>
+게시글작성일 : <span th:text="${post.PostRegdate}"></span><br>
+게시글수정일 : <span th:text="${post.PostUpdatedate}"></span><br>
+게시글조회수 : <span th:text="${post.PostHit}"></span><br>
+게시글파일<br> <th:block th:if="${postFileList}!=null" th:each="f:${postFileList}">
+	<img th:src="@{|/userImage/${f.savedFileName}|}" width="200px" height="200px"></span>
+</th:block>
+<br>
+<a th:href="@{/updatePost/{postNum}(postNum=${post.postNum})}">수정하기</a>
+<a th:href="@{/deletePost/{postNum}(postNum=${post.postNum})}">삭제하기</a>
+<a href="/board">목록으로</a>
+</body>
+</html>

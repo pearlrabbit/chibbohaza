@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js">
+$(function(){
+	var formData = new FormData($('#fileForm')[0]);
+	console.log(formData)
+	$("insertOK").click(function(){
+
+	$.ajax({
+		type: "POST",
+		enctype: 'multipart/form-data',	// 필수
+		url: '/insertPost',
+		data: formData,		// 필수
+		processData: false,	// 필수
+		contentType: false,	// 필수
+		cache: false,
+		success: function (result) {
+		},
+		error: function (e) {
+		}
+	});
+	})
+})
+</script>
+</head>
+<body>
+<form id="fileForm" method="post" enctype="multipart/form-data">
+<input type="text" name="postTitle" placeholder="게시글제목을 입력해주세요"><br>
+<textarea cols="70" rows="10" name="postContent" placeholder="게시글내용을 입력해주세요"></textarea><br>
+<input type="number" name="boardNum" placeholder="게시판번호를 입력해주세요"><br>
+<input type="file" name="multiFile[]" multiple/><br>
+<input type="submit" id="insertOK" value="등록">
+</form>
+</body>
+</html>

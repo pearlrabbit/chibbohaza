@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www,thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form th:action="@{/updatePost/{postNum}(postNum=${postNum})}" th:method="post">
+<input type="text" name="postTitle" th:value="${post.postTitle}"><br>
+<input type="text" name="postContent" th:value="${post.postContent}"><br>
+<input type="submit" value="등록">
+</form>
+</body>
+</html>
