@@ -3,40 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js">
-$(function(){
-	$("#insertOK").on("click",function(){
-		
-	//FormData 새로운 객체 생성 
-	var formData = new FormData();
-	var inputFile=$('input[name="upload_file"]');
-	var files=inputFile[0].files;
-	
-	formData.append('key1','value1');
-	formData.append('key2','value2');
-	
-	for(var i=0;i<files.length;i++){
-		formData.append('multiFile',files[i]);
-	}
-
-	// ajax 처리 부분 * 
-	$.ajax({
-	      url: '/insertPost',
-	      data: formData,
-	      type:'POST',
-	      contentType: false,               // * 중요 *
-	      processData: false,               // * 중요 *
-	      enctype : 'multipart/form-data',  // * 중요 *
-	      success: function(data) {
-	        if (result.SUCCESS == true) {
-	         alert("성공");
-	        } else {
-	         alert("실패");
-	         }
-	      }
-	});
-})
-})
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+	function fn_addFile(){
+		$("#d_file").append("<br>"+"<input type='file' name='multiFile' multiple='multiple'/>");
+		}
 </script>
 </head>
 <body>
@@ -44,7 +15,8 @@ $(function(){
 <input type="text" id="postTitle" name="postTitle" placeholder="게시글제목을 입력해주세요"><br>
 <textarea cols="70" rows="10" id="postContent" name="postContent" placeholder="게시글내용을 입력해주세요"></textarea><br>
 <input type="number" id="boardNum" name="boardNum" placeholder="게시판번호를 입력해주세요"><br>
-<input type="file" name="" id="upload_file" name="upload_file" multiple/><br>
+<input type="button" value="파일추가" onClick="fn_addFile()">
+<div id="d_file" name="multiFile"></div>
 <input type="submit" id="insertOK" value="등록">
 </form>
 </body>
