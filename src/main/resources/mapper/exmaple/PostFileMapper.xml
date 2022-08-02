@@ -16,4 +16,13 @@
   <delete id="deletePostFile" parameterType="java.lang.Integer">
   	delete from j_postfile where postFileNum=#{postFileNum}
   </delete>
+  <delete id="deletePostFileAll" parameterType="java.lang.Integer">
+  	delete from j_postfile where postNum=#{postNum}
+  </delete>
+  <select id="findByPostFileNum" resultType="PostFile" parameterType="java.lang.Integer">
+  	select * from j_postfile where postFileNum=#{postFileNum}
+  </select>
+  <select id="findByPostNum" resultType="PostFile" parameterType="java.lang.Integer">
+  	select * from j_postfile where postNum=#{postNum}
+  </select>
 </mapper>

@@ -3,11 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+function fileRemove(postFileNum) {
+    $.ajax({
+    	url:"/deletePostFile/"+postFileNum,
+    	success:function(){
+    		console.log("파일 삭제 됨");
+    	}
+    })
+}
+</script>
 </head>
 <body>
 <form th:action="@{/updatePost/{postNum}(postNum=${postNum})}" th:method="post">
 <input type="text" name="postTitle" th:value="${post.postTitle}"><br>
 <input type="text" name="postContent" th:value="${post.postContent}"><br>
+<th:block th:if="${postFileList}!=null" th:each="f:${postFileList}">
+	<img th:src="@{|/userImage/${f.savedFileName}|}" width="200px" height="200px">
+	<button th:myPostFileNum="${f.postFileNum}" value="삭제" onClick="fileRemove(this.getAttribute('myPostFileNum'))">삭제</button><br>
+</th:block>
 <input type="submit" value="등록">
 </form>
 </body>

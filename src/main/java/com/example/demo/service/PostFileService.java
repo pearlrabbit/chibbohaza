@@ -31,4 +31,16 @@ public class PostFileService {
 		postFileMapper.deletePostFile(postFileNum);
 	}
 	
+	public void deletePostFileAll(int postNum) {
+		postFileMapper.deletePostFileAll(postNum);
+	}
+	
+	public PostFile findByPostFileNum(int postFileNum) {
+		return postFileMapper.findByPostFileNum(postFileNum);
+	}
+	
+	public List<PostFile> findByPostNum(int postNum){
+		return postFileMapper.findByPostNum(postNum);
+	}
+	
 }

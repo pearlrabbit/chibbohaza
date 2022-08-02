@@ -54,7 +54,7 @@ public class PostController {
 	}
 	
 	@PostMapping("/insertPost")
-	public String insertOK(Post post, PostFile postFile, HttpSession session, @RequestParam("multiFile") MultipartFile[] multiFileList,MultipartHttpServletRequest multipartRequest,HttpServletResponse response, HttpServletRequest request){
+	public String insertOK(Post post, PostFile postFile, HttpSession session, @RequestParam(value="multiFile",required = false) MultipartFile[] multiFileList, HttpServletRequest request){
 		System.out.println("글쓰기ok왔다");
 		System.out.println("지금 로그인한 사용자 번호"+(Integer)(session.getAttribute("userNum")));
 		post.setPostNum(ps.getNextPostNum());
@@ -86,10 +86,8 @@ public class PostController {
 				postFile.setPostFileNum(pfs.getNextPostNum());
 				pfs.insertPostFile(postFile);
 				
-				
 				fileList.add(map);
 			}
-			
 			
 			System.out.println(fileList);
 			
@@ -108,11 +106,8 @@ public class PostController {
 				for(int i = 0; i < multiFileList.length; i++) {
 					new File(root + "\\" + fileList.get(i).get("changeFile")).delete();
 				}
-				
-				
 				e.printStackTrace();
 			}
-
 		}
 		return "redirect:/detailPost/"+post.getPostNum();
 	}
@@ -138,6 +133,7 @@ public class PostController {
 		ModelAndView mav=new ModelAndView("updatePost");
 		model.addAttribute("post", ps.detailPost(postNum));
 		model.addAttribute("postNum", ps.detailPost(postNum).getPostNum());
+		model.addAttribute("postFileList", pfs.detailPostFile(postNum));
 		return mav;
 	}
 	
@@ -150,7 +146,11 @@ public class PostController {
 	
 	@GetMapping("/deletePost/{postNum}")
 	public String deletePostOK(@PathVariable int postNum) {
+		if(pfs.findByPostNum(postNum)!=null) {
+			pfs.deletePostFileAll(postNum);
+		}
 		ps.deletePost(postNum);
+		pfs.deletePostFileAll(postNum);
 		return "redirect:/main";
 	}
 	
