@@ -11,10 +11,15 @@
 </script>
 </head>
 <body>
-<form id="fileForm" action="/insertPost" method="post" enctype="multipart/form-data">
+<form action="/insertPost" method="post" enctype="multipart/form-data">
+<select name="boardNum">
+	<option value="none">게시판 선택</option>
+	<option value="1">공지</option>
+	<option value="2">기업리뷰</option>
+	<option value="3">면접후기</option>
+</select><br>
 <input type="text" id="postTitle" name="postTitle" placeholder="게시글제목을 입력해주세요"><br>
 <textarea cols="70" rows="10" id="postContent" name="postContent" placeholder="게시글내용을 입력해주세요"></textarea><br>
-<input type="number" id="boardNum" name="boardNum" placeholder="게시판번호를 입력해주세요"><br>
 <input type="button" value="파일추가" onClick="fn_addFile()">
 <div id="d_file" name="multiFile"></div>
 <input type="submit" id="insertOK" value="등록">

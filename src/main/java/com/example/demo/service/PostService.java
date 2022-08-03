@@ -43,4 +43,8 @@ public class PostService {
 		postMapper.plusPostHit(postNum);
 	}
 	
+	public List<Post> findByBoardNum(int boardNum){
+		return postMapper.findByBoardNum(boardNum);
+	}
+	
 }

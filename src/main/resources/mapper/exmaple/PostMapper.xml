@@ -25,4 +25,7 @@
   <update id="plusPostHit" parameterType="java.lang.Integer">
   	update j_post set postHit=postHit+1 where postNum=#{postNum}
   </update>
+  <select id="findByBoardNum" parameterType="java.lang.Integer" resultType="Post">
+  	select * from j_post where boardNum=#{boardNum}
+  </select>
 </mapper>

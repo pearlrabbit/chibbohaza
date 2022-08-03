@@ -3,14 +3,12 @@ package com.example.demo.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.dto.PostListDto;
@@ -74,7 +71,6 @@ public class PostController {
 				String originFile = multiFileList[i].getOriginalFilename();
 				String ext = originFile.substring(originFile.lastIndexOf("."));
 				String changeFile = UUID.randomUUID().toString() + ext;
-				
 				
 				Map<String, String> map = new HashMap<>();
 				map.put("originFile", originFile);
@@ -138,32 +134,84 @@ public class PostController {
 	}
 	
 	@PostMapping("/updatePost/{postNum}")
-	public String updatePostOK(@PathVariable int postNum, Post post) {
+	public String updatePostOK(@PathVariable int postNum, Post post, PostFile postFile, @RequestParam(value="multiFile",required = false) MultipartFile[] multiFileList, HttpServletRequest request) {
 		System.out.println("업데이트ok컨트롤러 옴");
+		if(multiFileList!=null) {	
+			// 받아온것 출력 확인
+			System.out.println("multiFileList : " + multiFileList);
+			
+			// path 가져오기
+			String path = request.getSession().getServletContext().getRealPath("resources");
+			String root = "/Users/feelj/boardImage";
+			
+			List<Map<String, String>> fileList = new ArrayList<>();
+			
+			for(int i = 0; i < multiFileList.length; i++) {
+				String originFile = multiFileList[i].getOriginalFilename();
+				String ext = originFile.substring(originFile.lastIndexOf("."));
+				String changeFile = UUID.randomUUID().toString() + ext;
+				
+				Map<String, String> map = new HashMap<>();
+				map.put("originFile", originFile);
+				map.put("changeFile", changeFile);
+				postFile.setFileName(originFile);
+				postFile.setSavedFileName(changeFile);
+				postFile.setFilePathUrl(path);
+				postFile.setPostNum(post.getPostNum());
+				postFile.setPostFileNum(pfs.getNextPostNum());
+				pfs.insertPostFile(postFile);
+				
+				fileList.add(map);
+			}
+			
+			System.out.println(fileList);
+			
+			// 파일업로드
+			try {
+				for(int i = 0; i < multiFileList.length; i++) {
+					File uploadFile = new File(root + "\\" + fileList.get(i).get("changeFile"));
+					multiFileList[i].transferTo(uploadFile);
+				}
+				
+				System.out.println("다중 파일 업로드 성공!");
+				
+			} catch (IllegalStateException | IOException e) {
+				System.out.println("다중 파일 업로드 실패 ㅠㅠ");
+				// 만약 업로드 실패하면 파일 삭제
+				for(int i = 0; i < multiFileList.length; i++) {
+					new File(root + "\\" + fileList.get(i).get("changeFile")).delete();
+				}
+				e.printStackTrace();
+			}
+		}
 		ps.updatePost(post);
 		return "redirect:/detailPost/"+post.getPostNum();
 	}
 	
 	@GetMapping("/deletePost/{postNum}")
 	public String deletePostOK(@PathVariable int postNum) {
+		String root = "/Users/feelj/boardImage";
 		if(pfs.findByPostNum(postNum)!=null) {
 			pfs.deletePostFileAll(postNum);
+			
+			for(PostFile pf:pfs.findByPostNum(postNum)) {
+				new File(root + "\\" + pf.getSavedFileName()).delete();
+			}
 		}
 		ps.deletePost(postNum);
-		pfs.deletePostFileAll(postNum);
 		return "redirect:/main";
 	}
 	
-	@GetMapping("/board")
-	public ModelAndView goBoard(Model model) {
+	@GetMapping("/board/{boardNum}")
+	public ModelAndView goBoard(Model model, @PathVariable int boardNum) {
 		ModelAndView mav=new ModelAndView("board");
 		List<PostListDto> postList=new ArrayList();
-		if(ps.findAll()!=null) {
-			for(int i=0;i<ps.findAll().size();i++) {
+		if(ps.findByBoardNum(boardNum)!=null) {
+			for(int i=0;i<ps.findByBoardNum(boardNum).size();i++) {
 				PostListDto pl=new PostListDto();
-				pl.setPostNum(ps.findAll().get(i).getPostNum());
-				pl.setPostTitle(ps.findAll().get(i).getPostTitle());
-				pl.setUserNick(us.findByUserNum(ps.findAll().get(i).getUserNum()).getUserNick());
+				pl.setPostNum(ps.findByBoardNum(boardNum).get(i).getPostNum());
+				pl.setPostTitle(ps.findByBoardNum(boardNum).get(i).getPostTitle());
+				pl.setUserNick(us.findByUserNum(ps.findByBoardNum(boardNum).get(i).getUserNum()).getUserNick());
 				postList.add(pl);
 			}
 		}

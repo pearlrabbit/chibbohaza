@@ -13,16 +13,22 @@ function fileRemove(postFileNum) {
     	}
     })
 }
+
+function fn_addFile(){
+	$("#d_file").append("<br>"+"<input type='file' name='multiFile' multiple='multiple'/>");
+}
 </script>
 </head>
 <body>
-<form th:action="@{/updatePost/{postNum}(postNum=${postNum})}" th:method="post">
+<form th:action="@{/updatePost/{postNum}(postNum=${postNum})}" th:method="post" enctype="multipart/form-data">
 <input type="text" name="postTitle" th:value="${post.postTitle}"><br>
-<input type="text" name="postContent" th:value="${post.postContent}"><br>
+<textarea cols="100" rows="30" name="postContent" th:text="${post.postContent}"></textarea><br>
 <th:block th:if="${postFileList}!=null" th:each="f:${postFileList}">
 	<img th:src="@{|/userImage/${f.savedFileName}|}" width="200px" height="200px">
 	<button th:myPostFileNum="${f.postFileNum}" value="삭제" onClick="fileRemove(this.getAttribute('myPostFileNum'))">삭제</button><br>
 </th:block>
+<input type="button" value="파일추가" onClick="fn_addFile()">
+<div id="d_file" name="multiFile"></div>
 <input type="submit" value="등록">
 </form>
 </body>

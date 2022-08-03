@@ -23,4 +23,6 @@ public interface PostMapper {
 	
 	public void plusPostHit(int postNum);
 	
+	public List<Post> findByBoardNum(int boardNum);
+	
 }
