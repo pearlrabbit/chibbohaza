@@ -16,15 +16,8 @@
 	<img th:src="@{|/userImage/${f.savedFileName}|}" width="200px" height="200px"></span>
 </th:block>
 <br>
-<span>
-<th:block th:if="${session.userNum==post.userNum}">
 <a th:href="@{/updatePost/{postNum}(postNum=${post.postNum})}">수정하기</a>
 <a th:href="@{/deletePost/{postNum}(postNum=${post.postNum})}">삭제하기</a>
-</th:block>
-</span><span>
-<th:block th:unless="${session.userNum==post.userNum}">
-</th:block>
-</span>
 <a th:href="@{/board/{boardNum}(boardNum=${post.boardNum})}">목록으로</a>
 </body>
 </html>

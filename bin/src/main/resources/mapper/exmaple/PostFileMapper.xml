@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PostFileMapper">
+  
+  <insert id="insertPostFile" parameterType="PostFile">
+  	insert into j_postfile(postFileNum, postNum, isDeleted, fileName, savedFileName, filePathUrl) values(#{postFileNum},#{postNum},0,#{fileName},#{savedFileName},#{filePathUrl})
+  </insert>
+  <select id="getNextPostFileNum" resultType="java.lang.Integer">
+  	select ifnull(max(postFileNum),0)+1 from j_postfile
+  </select>
+  <select id="detailPostFile" parameterType="java.lang.Integer" resultType="PostFile">
+  	select * from j_postfile where postNum=#{postNum}
+  </select>
+  <delete id="deletePostFile" parameterType="java.lang.Integer">
+  	delete from j_postfile where postFileNum=#{postFileNum}
+  </delete>
+  <delete id="deletePostFileAll" parameterType="java.lang.Integer">
+  	delete from j_postfile where postNum=#{postNum}
+  </delete>
+  <select id="findByPostFileNum" resultType="PostFile" parameterType="java.lang.Integer">
+  	select * from j_postfile where postFileNum=#{postFileNum}
+  </select>
+  <select id="findByPostNum" resultType="PostFile" parameterType="java.lang.Integer">
+  	select * from j_postfile where postNum=#{postNum}
+  </select>
+</mapper>

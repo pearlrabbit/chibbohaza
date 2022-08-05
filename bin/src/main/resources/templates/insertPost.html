@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+	function fn_addFile(){
+		$("#d_file").append("<br>"+"<input type='file' name='multiFile' multiple='multiple'/>");
+	}
+</script>
+</head>
+<body>
+<form action="/insertPost" method="post" enctype="multipart/form-data">
+<select name="boardNum">
+	<option value="none">게시판 선택</option>
+	<option value="1">공지</option>
+	<option value="2">기업리뷰</option>
+	<option value="3">면접후기</option>
+</select><br>
+<input type="text" id="postTitle" name="postTitle" placeholder="게시글제목을 입력해주세요"><br>
+<textarea cols="70" rows="10" id="postContent" name="postContent" placeholder="게시글내용을 입력해주세요"></textarea><br>
+<input type="button" value="파일추가" onClick="fn_addFile()">
+<div id="d_file" name="multiFile"></div>
+<input type="submit" id="insertOK" value="등록">
+</form>
+</body>
+</html>

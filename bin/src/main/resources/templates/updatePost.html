@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www,thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+function fileRemove(postFileNum) {
+    $.ajax({
+    	url:"/deletePostFile/"+postFileNum,
+    	success:function(){
+    		console.log("파일 삭제 됨");
+    	}
+    })
+}
+
+function fn_addFile(){
+	$("#d_file").append("<br>"+"<input type='file' name='multiFile' multiple='multiple'/>");
+}
+</script>
+</head>
+<body>
+<form th:action="@{/updatePost/{postNum}(postNum=${postNum})}" th:method="post" enctype="multipart/form-data">
+<input type="text" name="postTitle" th:value="${post.postTitle}"><br>
+<textarea cols="100" rows="30" name="postContent" th:text="${post.postContent}"></textarea><br>
+<th:block th:if="${postFileList}!=null" th:each="f:${postFileList}">
+	<img th:src="@{|/userImage/${f.savedFileName}|}" width="200px" height="200px">
+	<button th:myPostFileNum="${f.postFileNum}" value="삭제" onClick="fileRemove(this.getAttribute('myPostFileNum'))">삭제</button><br>
+</th:block>
+<input type="button" value="파일추가" onClick="fn_addFile()">
+<div id="d_file" name="multiFile"></div>
+<input type="submit" value="등록">
+</form>
+</body>
+</html>

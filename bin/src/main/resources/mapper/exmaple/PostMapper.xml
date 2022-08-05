@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PostMapper">
+  
+  <insert id="insertPost" parameterType="Post">
+  	insert into j_post(postNum, postTitle, postContent, postHit, postRegdate, postUpdatedate, boardNum, userNum) values(#{postNum},#{postTitle},#{postContent},0,sysdate(),sysdate(),#{boardNum},#{userNum})
+  </insert>
+  <select id="getNextPostNum" resultType="java.lang.Integer">
+  	select ifnull(max(postNum),0)+1 from j_post
+  </select>
+  <select id="detailPost" parameterType="java.lang.Integer" resultType="Post">
+  	select * from j_post where postNum=#{postNum}
+  </select>
+  <update id="updatePost" parameterType="Post">
+  	update j_post set postTitle=#{postTitle}, postContent=#{postContent}, postUpdatedate=sysdate() where postNum=#{postNum}
+  </update>
+  <delete id="deletePost" parameterType="java.lang.Integer">
+  	delete from j_post where postNum=#{postNum}
+  </delete>
+  <select id="findAll" resultType="Post">
+  	select * from j_post;
+  </select>
+  <update id="plusPostHit" parameterType="java.lang.Integer">
+  	update j_post set postHit=postHit+1 where postNum=#{postNum}
+  </update>
+  <select id="findByBoardNum" parameterType="java.lang.Integer" resultType="Post">
+  	select * from j_post where boardNum=#{boardNum}
+  </select>
+</mapper>
