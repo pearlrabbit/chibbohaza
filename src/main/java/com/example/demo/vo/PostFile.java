@@ -11,13 +11,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class PostFile {
-	
+
 	private int postFileNum;
 	private int postNum;
 	private int isDeleted;
 	private String fileName;
 	private String savedFileName;
 	private String filePathUrl;
-	
-	
+
 }

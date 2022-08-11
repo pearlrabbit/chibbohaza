@@ -11,18 +11,18 @@ import com.example.demo.vo.PostFile;
 
 @Service
 public class PostFileService {
-	
+
 	@Autowired
 	private PostFileMapper postFileMapper;
 
 	public void insertPostFile(PostFile postfile) {
 		postFileMapper.insertPostFile(postfile);
 	}
-	
+
 	public int getNextPostNum() {
 		return postFileMapper.getNextPostFileNum();
 	}
-	
+
 	public List<PostFile> detailPostFile(int postNum) {
 		return postFileMapper.detailPostFile(postNum);
 	}
@@ -30,17 +30,17 @@ public class PostFileService {
 	public void deletePostFile(int postFileNum) {
 		postFileMapper.deletePostFile(postFileNum);
 	}
-	
+
 	public void deletePostFileAll(int postNum) {
 		postFileMapper.deletePostFileAll(postNum);
 	}
-	
+
 	public PostFile findByPostFileNum(int postFileNum) {
 		return postFileMapper.findByPostFileNum(postFileNum);
 	}
-	
-	public List<PostFile> findByPostNum(int postNum){
+
+	public List<PostFile> findByPostNum(int postNum) {
 		return postFileMapper.findByPostNum(postNum);
 	}
-	
+
 }

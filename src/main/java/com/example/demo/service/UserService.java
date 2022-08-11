@@ -10,22 +10,22 @@ import com.example.demo.vo.User;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserMapper userMapper;
-	
-	public List<User> findAll(){
+
+	public List<User> findAll() {
 		return userMapper.findAll();
 	}
-	
+
 	public void insertUser(User user) {
 		userMapper.insert(user);
 	}
-	
+
 	public int getNextUserNum() {
 		return userMapper.getNextUserNum();
 	}
-	
+
 	public User loginCheck(User user) {
 		return userMapper.loginCheck(user);
 	}

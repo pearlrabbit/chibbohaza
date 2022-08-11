@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class Post {
-	
+
 	private int postNum;
 	private int userNum;
 	private String postTitle;
